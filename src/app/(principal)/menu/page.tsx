@@ -6,6 +6,7 @@ import { fetchClientes } from "@/services/clienteService";
 
 const Principal = () => {
   const router = useRouter();
+  const [userName, setUserName] = useState('');
   
   // Usar el store de clientes para obtener datos reales
   const { 
@@ -26,7 +27,9 @@ const Principal = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Cargar datos de usuario (simulado por ahora)        
+        // Cargar datos de usuario (simulado por ahora)
+        setUserName('Usuario Administrador');
+        
         // Cargar clientes reales si aún no están en el store
         if (clientes.length === 0) {
           setLoading(true);
@@ -60,7 +63,7 @@ const Principal = () => {
     };
   }, [clientes]);
 
-  const navigateTo = (path:string) => {
+  const navigateTo = (path:any) => {
     router.push(path);
   };
 

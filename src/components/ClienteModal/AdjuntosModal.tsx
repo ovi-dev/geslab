@@ -12,12 +12,14 @@ interface Documento {
 interface AdjuntosModalProps {
     isOpen: boolean;
     onClose: () => void;
+    clienteId?: number;
     clienteNombre?: string;
 }
 
 export default function AdjuntosModal({
     isOpen,
     onClose,
+    clienteId,
     clienteNombre
 }: AdjuntosModalProps) {
     // Estados
