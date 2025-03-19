@@ -6,7 +6,7 @@ import { getUser, logout } from "@/services/auth";
 import { FiLogOut } from "react-icons/fi";
 // Definición de tipos para mejor tipado
 interface User {
-  name: string;
+  NOMBRE: string;
   email?: string;
   // Otras propiedades del usuario
   [key: string]: any;
@@ -72,7 +72,7 @@ export default function ExiLogin() {
       <div className="flex justify-between items-center text-black px-4 py-2">
         {/* Mensaje con nombre de usuario (alineado a la izquierda) */}
         <h1 className=" font-normal text-white">
-          Bienvenido, <span className="text-white">{user?.name || 'Usuario'}</span>
+          Bienvenido, <span className="text-white">{user?.NOMBRE || 'Usuario'}</span>
         </h1>
         
         {/* Espacio flexible en el medio */}

@@ -14,7 +14,7 @@ export interface AuthError {
 // Tipo para respuesta de usuario
 export interface UserResponse {
   id: string;
-  name: string;
+  NOMBRE: string;
   // otros campos que devuelva la API
   [key: string]: any;
 }
@@ -132,6 +132,7 @@ export async function getUser(): Promise<UserResponse> {
     }
     
     const response = await apiClient.get('/me');
+    console.log(response)
     return response.data;
   } catch (error) {
     handleApiError(error);
