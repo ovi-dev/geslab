@@ -16,7 +16,7 @@ export interface UserResponse {
   id: string;
   name: string;
   // otros campos que devuelva la API
-  [key: string]: any;
+  [key: string]: string;
 }
 
 // Cliente HTTP configurado
