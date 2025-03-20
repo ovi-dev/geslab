@@ -71,33 +71,27 @@ export default function ExiLogin() {
    * Componente de carga mientras se verifica la autenticación
    */
   if (loading) return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-14 w-4 border-t-2 border-b-2 border-blue-500"></div>
+    <div className="flex justify-center items-center h-10">
+      <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-blue-300"></div>
     </div>
   );
 
   return (
-    <div className="p-4 max-w-full mx-auto">
-      <div className="flex justify-between items-center text-black px-4 py-2">
-        {/* Mensaje con nombre de usuario (alineado a la izquierda) */}
-        <h1 className=" font-normal text-white">
-          Bienvenido, <span className="text-white">{user?.NOMBRE || 'Usuario'}</span>
-        </h1>
-        
-        {/* Espacio flexible en el medio */}
-        <div className="flex-grow"></div>
-        
-        {/* Botón para salir del sistema con icono de React Icons */}
-        
-        <button
-          onClick={handleLogout}
-          className="inline-flex items-center gap-2 text-white py-1 px-3 rounded-lg focus:outline-none transition-colors hover:bg-gray-700 cursor-pointer"
-          title="Cerrar sesión"
-        >
-          <FiLogOut className="h-5 w-5" />
-          Salir
-        </button>
-      </div>
+    <div className="flex items-center text-white">
+      {/* Nombre de usuario (oculto en móvil) */}
+      <span className="hidden sm:inline mr-2 text-xs">
+        {user?.NOMBRE || 'Usuario'}
+      </span>
+      
+      {/* Botón para salir del sistema con icono */}
+      <button
+        onClick={handleLogout}
+        className="inline-flex items-center text-white py-1 px-2 rounded focus:outline-none transition-colors hover:bg-blue-800"
+        title="Cerrar sesión"
+      >
+        <FiLogOut className="h-4 w-4" />
+        <span className="hidden sm:inline ml-1">Salir</span>
+      </button>
     </div>
   );
 }
