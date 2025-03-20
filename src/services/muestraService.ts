@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Muestra } from '@/types/muestra';
 
 const API_URL = 'https://rest-desarrollo.canagrosa.com';
-const TOKEN_KEY = 'auth_token';
+const TOKEN_KEY = 'token';
 
 // Cache para las muestras
 let muestrasCache: Muestra[] = [];
@@ -68,7 +68,7 @@ export const fetchMuestras = async (): Promise<Muestra[]> => {
         const token = getAuthToken();
         console.log('Token:', token ? 'Presente' : 'No presente');
         
-        const response = await api.get<Muestra[]>('/muestras/list');
+        const response = await api.get<Muestra[]>('/api/muestras/list');
         console.log('Respuesta de la API:', response.data);
         
         muestrasCache = response.data;

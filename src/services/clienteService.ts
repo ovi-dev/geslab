@@ -50,10 +50,8 @@ clienteAPI.interceptors.request.use(
   (config) => {
     const token = getAuthToken();
     if (token) {
-      // Asegurarse de que el token tenga el formato correcto
-      config.headers.Authorization = token.startsWith('Bearer ') 
-        ? token 
-        : `Bearer ${token}`;
+      // Usar el mismo formato que los otros servicios
+      config.headers.Authorization = `Bearer ${token}`;
     }
     
     // Para depuración en desarrollo, no en producción
@@ -77,9 +75,11 @@ clienteAPI.interceptors.response.use(
     // Manejo de errores de autenticación
     if (error.response && error.response.status === 401) {
       console.error('Error de autenticación (401)');
-      // Evento personalizado para notificar a la aplicación
+      // Limpiar token inválido
+      localStorage.removeItem(TOKEN_KEY);
+      // Redirigir al login
       if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('auth-error', { detail: error.response }));
+        window.location.href = '/';
       }
     }
     
@@ -136,7 +136,7 @@ export const verificarToken = async (): Promise<boolean> => {
     if (!token) return false;
     
     // Realizar una petición ligera para verificar el token
-    const response = await clienteAPI.head('/list');
+    const response = await clienteAPI.get('/list', { headers: { 'Content-Length': '0' } });
     return response.status === 200;
   } catch (error) {
     console.error('Token inválido o expirado');
