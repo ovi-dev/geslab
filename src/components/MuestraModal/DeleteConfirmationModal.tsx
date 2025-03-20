@@ -38,7 +38,7 @@ export default function DeleteConfirmationModal({ isOpen, onClose }: DeleteConfi
                 <h2 className="text-lg font-semibold mb-4">Confirmar Eliminación</h2>
                 
                 <p className="text-sm text-gray-600 mb-4">
-                    ¿Está seguro de que desea eliminar la muestra con referencia "{muestraSeleccionada.REFERENCIA_CLIENTE}"?
+                    ¿Está seguro de que desea eliminar la muestra con referencia &quot;{muestraSeleccionada.REFERENCIA_CLIENTE}&quot;?
                     Esta acción no se puede deshacer.
                 </p>
 
