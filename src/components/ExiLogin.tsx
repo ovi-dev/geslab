@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getUser, logout } from "@/services/auth";
+import { getUser, logout, verificarToken } from "@/services/auth";
 import { FiLogOut } from "react-icons/fi";
 // Definición de tipos para mejor tipado
 interface User {
@@ -29,13 +29,22 @@ export default function ExiLogin() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        // Primero verificar si el token es válido
+        const tokenValido = await verificarToken();
+        if (!tokenValido) {
+          setError("Sesión expirada. Por favor, inicie sesión nuevamente.");
+          router.push("/");
+          return;
+        }
+
+        // Si el token es válido, obtener datos del usuario
         const userData = await getUser();
         setUser(userData);
         setError(null);
       } catch (error) {
         console.error("Error de autenticación:", error);
         setError("No se pudo verificar la autenticación");
-        router.push("/"); // Redirección al login
+        router.push("/");
       } finally {
         setLoading(false);
       }

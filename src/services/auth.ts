@@ -175,3 +175,42 @@ export async function logout(): Promise<boolean> {
 export function isAuthenticated(): boolean {
   return Boolean(TokenService.getToken());
 }
+
+/**
+ * Verifica si el token actual es válido y no ha expirado
+ * @returns Promise<boolean> - true si el token es válido
+ */
+export async function verificarToken(): Promise<boolean> {
+  try {
+    const token = TokenService.getToken();
+    if (!token) {
+      console.warn('No se encontró token de autenticación');
+      return false;
+    }
+
+    // Verificar el token con una petición ligera
+    const response = await apiClient.get('/me');
+    return response.status === 200;
+  } catch (error) {
+    console.error('Error al verificar token:', error);
+    // Limpiar token inválido
+    TokenService.removeToken();
+    return false;
+  }
+}
+
+// Mejorar el interceptor de respuesta para manejar errores de autenticación
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Limpiar token inválido
+      TokenService.removeToken();
+      // Redirigir al login
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
