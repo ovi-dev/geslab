@@ -122,7 +122,39 @@ export const getMuestraById = async (id: number): Promise<Muestra> => {
 // Función para crear una nueva muestra
 export const createMuestra = async (muestra: Omit<Muestra, 'ID_MUESTRA'>): Promise<Muestra> => {
     try {
-        const response = await api.post<Muestra>('/muestras', muestra);
+        // Asegurar que todos los campos requeridos estén presentes
+        const muestraCompleta = {
+            ...muestra,
+            ID_GENERAL: muestra.ID_GENERAL || 0,
+            ID_PARTICULAR: muestra.ID_PARTICULAR || 0,
+            ANNO: muestra.ANNO || new Date().getFullYear(),
+            EMPLEADO_ID: muestra.EMPLEADO_ID || 1,
+            REPLACEMENT_ID: muestra.REPLACEMENT_ID || 0,
+            TIPO_FRECUENCIA_ID: muestra.TIPO_FRECUENCIA_ID || 1,
+            BANO_ID: muestra.BANO_ID || 0,
+            ENTIDAD_MUESTREO_ID: muestra.ENTIDAD_MUESTREO_ID || 0,
+            FORMATO_ID: muestra.FORMATO_ID || 0,
+            ENTIDAD_ENTREGA_ID: muestra.ENTIDAD_ENTREGA_ID || 0,
+            OP_VUELO: muestra.OP_VUELO || 0,
+            OP_INSITU: muestra.OP_INSITU || 0,
+            OP_LABMOVIL: muestra.OP_LABMOVIL || 0,
+            OP_NORUTINARIA: muestra.OP_NORUTINARIA || 0,
+            OP_REPETICION: muestra.OP_REPETICION || 0,
+            RESPONSABLE_ID: muestra.RESPONSABLE_ID || 0,
+            URGENTE: muestra.URGENTE || 0,
+            CERRADA: muestra.CERRADA || 0,
+            ENAC: muestra.ENAC || 0,
+            NADCAP: muestra.NADCAP || 0,
+            IPA: muestra.IPA || 0,
+            INFORME_MANUAL: muestra.INFORME_MANUAL || 0,
+            // Asegurar que las fechas estén en el formato correcto
+            FECHA_MUESTREO: muestra.FECHA_MUESTREO ? new Date(muestra.FECHA_MUESTREO).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            FECHA_RECEPCION: muestra.FECHA_RECEPCION ? new Date(muestra.FECHA_RECEPCION).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            FECHA_PREV_FIN: muestra.FECHA_PREV_FIN ? new Date(muestra.FECHA_PREV_FIN).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            FECHA_RECOGIDA: muestra.FECHA_RECOGIDA ? new Date(muestra.FECHA_RECOGIDA).toISOString() : null
+        };
+
+        const response = await api.post<Muestra>('/muestras', muestraCompleta);
         // Actualizar caché
         muestrasCache = [...muestrasCache, response.data];
         return response.data;

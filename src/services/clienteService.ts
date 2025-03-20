@@ -4,7 +4,7 @@ import { Cliente } from "@/types/cliente";
 /**
  * Dirección web donde se encuentra la API de clientes
  */
-const API_URL = "https://rest-desarrollo.canagrosa.com/api/clientes/list";
+const API_URL = "https://rest-desarrollo.canagrosa.com/api/clientes";
 
 // Nombre de la clave para el token en localStorage - unificado
 const TOKEN_KEY = 'token';
@@ -104,7 +104,7 @@ export const fetchClientes = async (forceRefresh = false): Promise<Cliente[]> =>
   }
   
   try {
-    const response = await clienteAPI.get('');
+    const response = await clienteAPI.get('/list');
     clientesCache = response.data;
     lastFetchTime = now;
     return response.data;
@@ -136,7 +136,7 @@ export const verificarToken = async (): Promise<boolean> => {
     if (!token) return false;
     
     // Realizar una petición ligera para verificar el token
-    const response = await clienteAPI.head('');
+    const response = await clienteAPI.head('/list');
     return response.status === 200;
   } catch (error) {
     console.error('Token inválido o expirado');
@@ -168,7 +168,7 @@ export const getClienteById = async (id: number): Promise<Cliente | null> => {
  */
 export const createCliente = async (cliente: Omit<Cliente, 'ID_CLIENTE'>): Promise<Cliente> => {
   try {
-    const response = await clienteAPI.post('', cliente);
+    const response = await clienteAPI.post('/list', cliente);
     // Actualizar caché
     clientesCache = [];
     return response.data;
